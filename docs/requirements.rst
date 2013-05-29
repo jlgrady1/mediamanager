@@ -7,6 +7,8 @@ The current requirements for Media Manager are:
 * Django >= 1.5
 * Celery >= 2.2.8
 * RabbitMQ >= 3.1
+* FileBot >= 3.6
+* Java Runtime >= 1.6
 
 -----------------------
 Installing Requirements
@@ -32,3 +34,6 @@ Install celery from pip, no the EPEL repo. It can be installed with::
 
     sudo pip-python install celery
 
+FileBot is a program for automatically renaming T.V. shows from various T.V.
+databases. The commnad line version is required for Media Manager. The filebot
+executable must be in the path or set in the application config.

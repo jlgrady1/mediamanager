@@ -34,3 +34,6 @@ class Configuration(models.Model):
     date_updated = models.DateTimeField()
     key = models.CharField(max_length=255)
     value = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.key
