@@ -1,0 +1,24 @@
+<h1>Configuration</h1>
+<table>
+    <caption>Options</caption>
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if configuration_list %}
+            {% for option in configuration_list %}
+                <tr>
+                    <td>{{ option.key }}</td>
+                    <td>{{ option.value }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="2">No configuration options set</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
