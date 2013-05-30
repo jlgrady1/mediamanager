@@ -13,6 +13,7 @@ Contents:
 
    intro
    requirements
+   development
 
 Indices and tables
 ==================
