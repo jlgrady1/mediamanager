@@ -1,3 +1,0 @@
-Django==1.5.1
-Celery>=3.0.11
-RabbitMQ>=3.1.1
