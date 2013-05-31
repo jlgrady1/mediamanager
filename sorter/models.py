@@ -62,11 +62,14 @@ class MediaFile(models.Model):
 class Action(models.Model):
     date_created = models.DateTimeField()
     date_updated = models.DateTimeField()
-    date_executed = models.DateTimeField(null=True)
+    date_started = models.DateTimeField(null=True)
+    date_completed = models.DateTimeField(null=True)
     mediafile = models.ForeignKey(MediaFile)
     command = models.CharField(max_length=255)
     completion = models.IntegerField()
     description = models.CharField(max_length=255)
+    failed = models.BooleanField()
+    acknowledged = models.BooleanField()
 
     def __unicode__(self):
         return self.description
@@ -76,9 +79,13 @@ class Action(models.Model):
         if self.date_created is None:
             self.date_created = now
         self.date_updated = now
+        if self.failed is None:
+            self.failed = False
+        if self.acknowledged is None:
+            self.acknowledged = False
         super(Action, self).save(*args, **kwargs)
 
-class DownloadFolder(models.Model):
+class MediaFolder(models.Model):
     date_created = models.DateTimeField()
     date_updated = models.DateTimeField()
     folder = models.CharField(max_length=255, unique=True)
@@ -104,13 +111,14 @@ class DownloadFolder(models.Model):
             level = level + 1
             p = p.parent
         self.level = level
-        super(DownloadFolder, self).save(*args, **kwargs)
+        super(MediaFolder, self).save(*args, **kwargs)
 
 class Configuration(models.Model):
     date_created = models.DateTimeField()
     date_updated = models.DateTimeField()
     key = models.CharField(max_length=255, unique=True)
     value = models.CharField(max_length=255)
+    type = models.ForeignKey(Type)
 
     def __unicode__(self):
         return self.key

@@ -7,7 +7,7 @@ Replace this with more appropriate tests for your application.
 
 from django.test import TestCase
 
-from sorter.models import Type, Status, MediaFile, Action, DownloadFolder, \
+from sorter.models import Type, Status, MediaFile, Action, MediaFolder, \
                           Configuration
 
 import sorter.files
@@ -93,31 +93,35 @@ class ActionMethodTests(TestCase):
         action.save()
         self.assertIsNotNone(action.date_created)
         self.assertEqual(action.date_created, action.date_updated)
+        self.assertEqual(action.acknowledged, False)
+        self.assertEqual(action.failed, False)
         newcompletion = 75
         action.completion = newcompletion
+        action.failed = True
         action.save()
         self.assertNotEqual(action.date_created, action.date_updated)
         self.assertGreater(action.date_updated, action.date_created)
         dbaction = Action.objects.get(pk=1)
         self.assertEqual(dbaction.completion, newcompletion)
+        self.assertEqual(dbaction.failed, True)
         status2 = Status(code='convert')
         status2.save()
         duplicate_path_mf = MediaFile(type=type, status=status2, \
                        filepath='/fakefilepath/myfile.mkv')
         self.assertRaises(IntegrityError, lambda: duplicate_path_mf.save())
 
-class DownloadFolderMethodTests(TestCase):
+class MediaFolderMethodTests(TestCase):
     def test_save(self):
-        top_folder = DownloadFolder(folder = '/path/to/my/folder')
+        top_folder = MediaFolder(folder = '/path/to/my/folder')
         top_folder.save()
         self.assertIsNotNone(top_folder.date_created)
         self.assertEqual(top_folder.date_created, top_folder.date_updated)
         self.assertEqual(top_folder.level, 0)
-        child_folder1 = DownloadFolder(folder = '/path/to/my/folder/child', \
+        child_folder1 = MediaFolder(folder = '/path/to/my/folder/child', \
                                        parent = top_folder)
         child_folder1.save()
         self.assertEqual(child_folder1.level, 1)
-        child_folder2 = DownloadFolder( \
+        child_folder2 = MediaFolder( \
                 folder = '/path/to/my/folder/child/child2', \
                 parent = child_folder1)
         child_folder2.save()
@@ -127,14 +131,16 @@ class DownloadFolderMethodTests(TestCase):
         top_folder.save()
         self.assertNotEqual(top_folder.date_created, top_folder.date_updated)
         self.assertGreater(top_folder.date_updated, top_folder.date_created)
-        dbdf = DownloadFolder.objects.get(pk=1)
+        dbdf = MediaFolder.objects.get(pk=1)
         self.assertEqual(dbdf.folder, new_folder)
-        db_child1 = DownloadFolder.objects.get(pk=2)
+        db_child1 = MediaFolder.objects.get(pk=2)
         self.assertEqual(db_child1.parent, dbdf)
 
 class ConfigurationMethodTests(TestCase):
     def test_save(self):
-        config = Configuration(key="mykey", value="myvalue")
+        type = Type(code='config.app')
+        type.save()
+        config = Configuration(key="mykey", value="myvalue", type=type)
         config.save()
         self.assertIsNotNone(config.date_created)
         self.assertEqual(config.date_created, config.date_updated)

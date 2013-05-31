@@ -14,6 +14,7 @@ Contents:
    intro
    requirements
    development
+   design
 
 Indices and tables
 ==================

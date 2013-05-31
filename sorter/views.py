@@ -17,7 +17,10 @@ def editconfig(request):
     print "do some stuff"
     newkey = request.POST['newkey']
     newvalue = request.POST['newvalue']
-    if newkey is not None and newvalue is not None:
-        newconfig = Configuration(key=newkey, value=newvalue)
+    newtype_id = request.POST['newtype']
+    if newkey is not None and newvalue is not None and newtype_id is not None:
+        newconfig = Configuration(key=newkey, \
+                                  value=newvalue, \
+                                  type=Type.objects.get(pk=newtype_id))
         newconfig.save()
     return config(request)
