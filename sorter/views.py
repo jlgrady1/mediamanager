@@ -5,7 +5,8 @@ from django.shortcuts import render
 from sorter.models import Configuration
 
 def home(request):
-    return HttpResponse("Hello you are at the sorter home page.")
+    context = {}
+    return render(request, 'sorter/index.html', context)
 
 def config(request):
     configuration_list = Configuration.objects.all()

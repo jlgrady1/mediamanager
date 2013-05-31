@@ -30,13 +30,14 @@ Completed Tasks
 ---------------
 There are currently no completed tasks.
 
+* Complete database design
+* Import Twitter bootstrap into Django for styling
+
 -------------
 Current Tasks
 -------------
 The following tasks are those that are actively being worked.
 
-* Complete database design
-* Import Twitter bootstrap into Django for styling
 * Sketch wireframes for dashboard page
 
 ------------
