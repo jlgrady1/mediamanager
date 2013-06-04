@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.template import Context, loader
 from django.shortcuts import render, get_object_or_404
 
-from sorter.models import Configuration, Type, MediaFolder
+from sorter.models import Action, Configuration, MediaFolder, Type
 from sorter.forms import SetupForm
 
 # Get an instance of a logger
@@ -16,8 +16,13 @@ def home(request): # The home / index view
     if len(MediaFolder.objects.all()) == 0:
         log.info("No media folders defined. Entering Setup")
         return setup(request)
+    current_actions = Action.get_actions_in_progress() # list of running actions
+    context['actions'] = current_actions # add actions to context
+    scan_folder = get_object_or_404(MediaFolder) # top level media folder
+    context['scan_folder'] = scan_folder
     log.debug("home view context:" + str(context))
     return render(request, 'sorter/index.html', context)
+
 
 def config(request): # The configuration view
     configuration_list = Configuration.objects.all()
@@ -29,6 +34,7 @@ def config(request): # The configuration view
                }
     log.debug("config view context:" + str(context))
     return render(request, 'sorter/configuration.html', context)
+
 
 def editconfig(request): # The view for handling configuration changes
     newkey = request.POST['newkey']
@@ -64,3 +70,9 @@ def setup(request):
     context['form'] = form
     log.debug("setup view context:" + str(context))
     return render(request, 'sorter/setup.html', context)
+
+def scan(request, folder_id):
+    context = {}
+    log.debug("Starting scan of folder: " + folder_id)
+    return home(request)
+

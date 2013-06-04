@@ -4,7 +4,7 @@ when you run "manage.py test".
 
 Replace this with more appropriate tests for your application.
 """
-
+import datetime
 import logging
 import validate
 
@@ -43,7 +43,31 @@ class MediaFileMethodTests(TestCase):
         self.assertEqual(mf.get_extension(), 'mkv')
 
 class ActionMethodTests(TestCase):
-    pass
+    def test_get_actions_in_progess(self):
+        now = datetime.date.today()
+        type = Type(code='video')
+        type.save()
+        status = Status(code='rename')
+        status.save()
+        mf = MediaFile(type = type, \
+                       status = status, \
+                       filepath ='/fakefilepath/myfile.mkv')
+        mf.save()
+        command = "/bogus/command"
+        completion = 5
+        description = 'desc'
+        action = Action(mediafile = mf, \
+                        command = command, \
+                        completion = completion, \
+                        description = description)
+        action.save() # action saved but not started
+        current_actions = Action.get_actions_in_progress()
+        num_actions = len(current_actions)
+        self.assertFalse(action in current_actions)
+        action.start()
+        current_actions = Action.get_actions_in_progress()
+        self.assertEqual(len(current_actions), num_actions + 1)
+        self.assertTrue(action in current_actions)
 
 class MediaFolderMethodTests(TestCase):
     def test_get_level(self):

@@ -7,4 +7,5 @@ urlpatterns = patterns('',
         url(r'^config/edit/$', views.editconfig, name='editconfig'),
         url(r'^config/$', views.config, name='config'),
         url(r'^setup/$', views.setup, name='setup'),
+        url(r'^scan/(?P<folder_id>\d+)$', views.scan, name='scan'),
 )

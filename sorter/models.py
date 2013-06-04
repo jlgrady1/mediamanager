@@ -1,3 +1,4 @@
+import datetime
 import os
 import validate
 
@@ -56,6 +57,19 @@ class Action(models.Model):
     def __unicode__(self):
         return self.description
 
+    def start(self):
+        now = datetime.date.today()
+        self.date_started = now
+        self.save()
+        # Execute command here
+
+    @staticmethod
+    def get_actions_in_progress():
+        # filter by tasks that have started and have not completed tasks
+        actions = Action.objects.all() \
+                .filter(date_started__gte=datetime.date.today()) \
+                .filter(date_completed__exact=None)
+        return actions
 
 class MediaFolder(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)

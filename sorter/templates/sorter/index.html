@@ -15,7 +15,17 @@
       <div class="row">
         <div class="span9">
           <h2>Progress</h2>
-          
+          {% if actions %}
+            There are running actions
+          {% else %}
+            There are no running actions
+            <br/><br/>
+            <form action="{% url 'sorter:scan' scan_folder.id %}" method="post">
+              {% csrf_token %}
+              <label>Scan Folder: {{ scan_folder }}</label>
+              <input type="submit" class="btn btn-success" value="Scan">
+            </form>
+          {% endif %}
         </div>
         <div class="span3">
           <h2>Queued Tasks</h2>
