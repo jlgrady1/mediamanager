@@ -161,10 +161,10 @@ LOGGING = {
         },
         'file':{
             'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
             'formatter': 'verbose',
             'filename': SITE_ROOT + '/logs/mediamanager.log',
-            'maxBytes': 8192,
+            'when': 'midnight',
             'backupCount': 3,
         }
     },
