@@ -21,6 +21,7 @@ def home(request): # The home / index view
 
 def config(request): # The configuration view
     configuration_list = Configuration.objects.all()
+    # Filter the display list to only configuration types not media types
     config_type_list = Type.objects.filter(code__startswith='config')
     context = {
                'configuration_list': configuration_list,
