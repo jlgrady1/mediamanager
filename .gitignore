@@ -1,4 +1,6 @@
 docs/_build/*
+.settings/
+logs/*
 *~
 *.pyc
 .DS_Store

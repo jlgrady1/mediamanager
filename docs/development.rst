@@ -28,8 +28,8 @@ The sections below can be used to follow the status of the project
 ------------------------
 Basic Flow of operations
 ------------------------
-# Download Manager scans a folder for new files
-# New files are put into the database with the action of pending
+#. Download Manager scans a folder for new files
+#. New files are put into the database with the action of pending
 
 ^^^^^^^^^^^^
 Status Types
@@ -64,6 +64,23 @@ Status Types
 
     (.pending, .convert, .originals)
 
+-------------
+Current Tasks
+-------------
+The following tasks are those that are actively being worked.
+
+* Implement initial folder scanner
+    * Initial version will only scan a folder and add media files to the database
+    * No actions on files found. All files will be set to pending
+
+------------
+Future Tasks
+------------
+The following are tasks that are planned for later.
+
+* Update folder scanner to take the appropriate action
+* Add progress meter to the scanning tasks
+
 ---------------
 Completed Tasks
 ---------------
@@ -71,20 +88,8 @@ There are currently no completed tasks.
 
 * Complete database design
 * Import Twitter bootstrap into Django for styling
-
--------------
-Current Tasks
--------------
-The following tasks are those that are actively being worked.
-
 * Sketch wireframes for dashboard page
-
-------------
-Future Tasks
-------------
-The following are tasks that are planned for later.
-
 * Sketch wireframes for tasks/actions page
 * Sketch wireframes for configuration page
 * Sketch wireframes for history page
-* TBD
+* Implement first time setup wizard

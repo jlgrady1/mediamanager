@@ -46,12 +46,16 @@
                 <input name="newvalue" type="text" placeholder="New Value">
               </td>
               <td>
-                <input name="newtype" type="text" placeholder="New Value">
+                <select name="type">
+                  {% for type in type_list %}
+                    <option value="{{ type.id }}">{{ type.code }}</option>
+                  {% endfor %}
+                </select>
               </td>
             </tr>
           </tbody>
         </table>
-        <input type="submit" value="Apply" />
+        <input class="btn btn-primary" type="submit" value="Apply" />
       </form>
     </div> <!-- /container -->
     <!-- Placed at the end of the document so the pages load faster -->

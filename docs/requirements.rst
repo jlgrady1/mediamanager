@@ -9,6 +9,7 @@ The current requirements for Media Manager are:
 * RabbitMQ >= 3.1
 * FileBot >= 3.6
 * Java Runtime >= 1.6
+* pyyaml
 
 -----------------------
 Installing Requirements
@@ -20,7 +21,7 @@ the latest
 and install it.::
 
     wget http://fedora-epel.mirror.lstn.net/6/i386/epel-release-6-8.noarch.rpm
-    sudo yum install pel-release-6-8.noarch.rpm
+    sudo yum install epel-release-6-8.noarch.rpm
 
 Next install the latest RabbitMQ-Server::
 
@@ -33,6 +34,10 @@ Install python pip for python packages::
 Install celery from pip, no the EPEL repo. It can be installed with::
 
     sudo pip-python install celery
+
+Install pyyaml from pip::
+
+    sudo pip-python install pyyaml
 
 FileBot is a program for automatically renaming T.V. shows from various T.V.
 databases. The commnad line version is required for Media Manager. The filebot

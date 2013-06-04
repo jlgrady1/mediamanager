@@ -1,0 +1,48 @@
+- model: sorter.type
+  pk: 1
+  fields:
+    date_created: !!timestamp '2013-05-31 00:00:00'
+    date_updated: !!timestamp '2013-05-31 00:00:00'
+    code: file.video
+
+- model: sorter.type
+  pk: 2
+  fields:
+    date_created: !!timestamp '2013-05-31 00:00:00'
+    date_updated: !!timestamp '2013-05-31 00:00:00'
+    code: file.image
+
+- model: sorter.type
+  pk: 3
+  fields:
+    date_created: !!timestamp '2013-05-31 00:00:00'
+    date_updated: !!timestamp '2013-05-31 00:00:00'
+    code: file.music
+
+- model: sorter.type
+  pk: 4
+  fields:
+    date_created: !!timestamp '2013-05-31 00:00:00'
+    date_updated: !!timestamp '2013-05-31 00:00:00'
+    code: file.text
+
+- model: sorter.type
+  pk: 5
+  fields:
+    date_created: !!timestamp '2013-05-31 00:00:00'
+    date_updated: !!timestamp '2013-05-31 00:00:00'
+    code: config.app
+
+- model: sorter.type
+  pk: 6
+  fields:
+    date_created: !!timestamp '2013-05-31 00:00:00'
+    date_updated: !!timestamp '2013-05-31 00:00:00'
+    code: config.rename
+
+- model: sorter.type
+  pk: 7
+  fields:
+    date_created: !!timestamp '2013-05-31 00:00:00'
+    date_updated: !!timestamp '2013-05-31 00:00:00'
+    code: config.convert

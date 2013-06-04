@@ -5,63 +5,29 @@ when you run "manage.py test".
 Replace this with more appropriate tests for your application.
 """
 
+import logging
+import validate
+
 from django.test import TestCase
 
 from sorter.models import Type, Status, MediaFile, Action, MediaFolder, \
                           Configuration
 
 import sorter.files
+
 from django.db.utils import IntegrityError
+from django.core.exceptions import ValidationError
+
+# Get an instance of a logger
+log = logging.getLogger(__name__)
 
 class TypeMethodTests(TestCase):
-    def test_save(self):
-        type = Type(code='mytestcode')
-        type.save()
-        self.assertIsNotNone(type.date_created)
-        self.assertEqual(type.date_created, type.date_updated)
-        newtestcode = 'newtestcode'
-        type.code = newtestcode
-        type.save()
-        self.assertNotEqual(type.date_created, type.date_updated)
-        self.assertGreater(type.date_updated, type.date_created)
-        dbtype = Type.objects.get(pk=1)
-        self.assertEqual(dbtype.code, newtestcode)
+    pass
 
 class StatusMethodTests(TestCase):
-    def test_save(self):
-        status = Status(code='mystatus')
-        status.save()
-        self.assertIsNotNone(status.date_created)
-        self.assertEqual(status.date_created, status.date_updated)
-        newstatuscode = 'newstatuscode'
-        status.code = newstatuscode
-        status.save()
-        self.assertNotEqual(status.date_created, status.date_updated)
-        self.assertGreater(status.date_updated, status.date_created)
-        dbstatus = Status.objects.get(pk=1)
-        self.assertEqual(dbstatus.code, newstatuscode)
+    pass
 
 class MediaFileMethodTests(TestCase):
-    def test_save(self):
-        type = Type(code='video')
-        type.save()
-        status = Status(code='convert')
-        status.save()
-        mf = MediaFile(type=type, status=status, \
-                       filepath='/fakefilepath/myfile.mkv')
-        mf.save()
-        self.assertIsNotNone(mf.date_created)
-        self.assertEqual(mf.date_created, mf.date_updated)
-        newfilepath = '/fakefilepath/myfile.mp4'
-        mf.filepath = newfilepath
-        mf.save()
-        self.assertNotEqual(mf.date_created, mf.date_updated)
-        self.assertGreater(mf.date_updated, mf.date_created)
-        dbmf = MediaFile.objects.get(pk=1)
-        self.assertEqual(dbmf.filepath, newfilepath)
-        self.assertEqual(dbmf.type, type)
-        self.assertEqual(dbmf.status, status)
-
     def test_get_filename(self):
         mf = MediaFile(type = Type(code='video'), \
                        status = Status(code='rename'), \
@@ -77,77 +43,65 @@ class MediaFileMethodTests(TestCase):
         self.assertEqual(mf.get_extension(), 'mkv')
 
 class ActionMethodTests(TestCase):
-    def test_save(self):
-        type = Type(code='video')
-        type.save()
-        status = Status(code='rename')
-        status.save()
-        mf = MediaFile(type=type, status=status, \
-                       filepath='/fakefilepath/myfile.mkv')
-        mf.save()
-        command = '/usr/bin/mycommand'
-        completion = 50
-        description = 'run some command'
-        action = Action(mediafile = mf, command = command, \
-                        completion = completion, description = description)
-        action.save()
-        self.assertIsNotNone(action.date_created)
-        self.assertEqual(action.date_created, action.date_updated)
-        self.assertEqual(action.acknowledged, False)
-        self.assertEqual(action.failed, False)
-        newcompletion = 75
-        action.completion = newcompletion
-        action.failed = True
-        action.save()
-        self.assertNotEqual(action.date_created, action.date_updated)
-        self.assertGreater(action.date_updated, action.date_created)
-        dbaction = Action.objects.get(pk=1)
-        self.assertEqual(dbaction.completion, newcompletion)
-        self.assertEqual(dbaction.failed, True)
-        status2 = Status(code='convert')
-        status2.save()
-        duplicate_path_mf = MediaFile(type=type, status=status2, \
-                       filepath='/fakefilepath/myfile.mkv')
-        self.assertRaises(IntegrityError, lambda: duplicate_path_mf.save())
+    pass
 
 class MediaFolderMethodTests(TestCase):
-    def test_save(self):
+    def test_get_level(self):
         top_folder = MediaFolder(folder = '/path/to/my/folder')
         top_folder.save()
-        self.assertIsNotNone(top_folder.date_created)
-        self.assertEqual(top_folder.date_created, top_folder.date_updated)
-        self.assertEqual(top_folder.level, 0)
+        self.assertEqual(top_folder.get_level(), 0)
         child_folder1 = MediaFolder(folder = '/path/to/my/folder/child', \
-                                       parent = top_folder)
+                                    parent = top_folder)
         child_folder1.save()
-        self.assertEqual(child_folder1.level, 1)
+        self.assertEqual(child_folder1.get_level(), 1)
         child_folder2 = MediaFolder( \
                 folder = '/path/to/my/folder/child/child2', \
                 parent = child_folder1)
         child_folder2.save()
-        self.assertEqual(child_folder2.level, 2)
-        new_folder = '/changedpath/to/my/folder'
-        top_folder.folder = new_folder
-        top_folder.save()
-        self.assertNotEqual(top_folder.date_created, top_folder.date_updated)
-        self.assertGreater(top_folder.date_updated, top_folder.date_created)
-        dbdf = MediaFolder.objects.get(pk=1)
-        self.assertEqual(dbdf.folder, new_folder)
-        db_child1 = MediaFolder.objects.get(pk=2)
-        self.assertEqual(db_child1.parent, dbdf)
+        self.assertEqual(child_folder2.get_level(), 2)
+        child_folder3 = MediaFolder( \
+                folder = '/path/to/my/folder/child/child3', \
+                parent = child_folder1)
+        child_folder3.save()
+        self.assertEqual(child_folder3.get_level(), 2)
+
 
 class ConfigurationMethodTests(TestCase):
-    def test_save(self):
-        type = Type(code='config.app')
-        type.save()
-        config = Configuration(key="mykey", value="myvalue", type=type)
-        config.save()
-        self.assertIsNotNone(config.date_created)
-        self.assertEqual(config.date_created, config.date_updated)
-        newvalue = 'newvalue'
-        config.value = newvalue
-        config.save()
-        self.assertNotEqual(config.date_created, config.date_updated)
-        self.assertGreater(config.date_updated, config.date_created)
-        dbconfig = Configuration.objects.get(pk=1)
-        self.assertEqual(dbconfig.value, newvalue)
+    pass
+
+class ValidatorsMethodTests(TestCase):
+    def test_validate_folder_exists(self):
+        missingfolder = '/bogus'
+        self.assertRaises(ValidationError, \
+                          lambda: validate.folder_exists(missingfolder))
+
+class FormMethodTests(TestCase):
+    fixtures = ['type', 'config',]
+    def test_setup_form(self):
+        folder_name = '/opt'
+
+        bad_form_data = {'scan_folder': '/tmp', \
+                         'destination_folder' : '/bogus'}
+        response = self.client.post('/setup/', bad_form_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertRaises(Configuration.DoesNotExist, \
+                          lambda: Configuration.objects.get(key='destination.folder'))
+
+        good_form_data = {'scan_folder': folder_name, \
+                          'destination_folder' : '/tmp/'}
+        response = self.client.post('/setup/', good_form_data)
+        self.assertEqual(response.status_code, 200)
+        try:
+            sf = MediaFolder.objects.get(folder=folder_name)
+        except MediaFolder.DoesNotExist:
+            log.error(MediaFolder.objects.all())
+            self.fail("Scan folder was not saved")
+        try:
+            df = Configuration.objects.get(key='destination.folder')
+            self.assertEqual(df.value, '/tmp', \
+                             "Trailing slash not removed from dir")
+        except Configuration.DoesNotExist:
+            log.error(Configuration.objects.all())
+            self.fail("Destination folder was not saved")
+        sf.delete()
+        df.delete()
