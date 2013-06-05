@@ -1,9 +1,0 @@
-- model: sorter.configuration
-  pk: 1
-  fields:
-    date_created: !!timestamp '2013-05-31 00:00:00'
-    date_updated: !!timestamp '2013-05-31 00:00:00'
-    key: folder.tmp
-    value: /tmp
-    type: 6
-    locked: true

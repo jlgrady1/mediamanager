@@ -64,6 +64,9 @@ Status Types
 
     (.pending, .convert, .originals)
 
+**failed**
+    The task has reached it maximum number of retries and failed.
+
 -------------
 Current Tasks
 -------------

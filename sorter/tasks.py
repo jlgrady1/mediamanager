@@ -13,7 +13,7 @@ def scan(media_folder):
     contents = os.listdir(folder)
     log.debug("found media files: " + str(contents))
     for file in contents:
-        os.path.isfile(file):
+        if os.path.isfile(file):
             pass
 
     return contents
