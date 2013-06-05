@@ -1,9 +1,14 @@
 import datetime
+import magic
 import os
+import tasks
 import validate
+
 
 from django.utils import timezone
 from django.db import models
+
+
 
 class Type(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
@@ -12,6 +17,10 @@ class Type(models.Model):
 
     def __unicode__(self):
         return self.code
+
+    @staticmethod
+    def get_type(filename):
+        magic.from_file(filename)
 
 class Status(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
@@ -34,7 +43,7 @@ class MediaFile(models.Model):
 
     def get_filename(self):
         return os.path.basename(self.filepath)
-    
+
     def get_extension(self):
         fn = self.get_filename()
         ext = os.path.splitext(fn)[1]
@@ -93,6 +102,8 @@ class MediaFolder(models.Model):
             p = p.parent
         return level
 
+    def scan(self):
+        tasks.scan(self) # Initiate scan of the media folder
 
 class Configuration(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)

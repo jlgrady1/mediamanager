@@ -1,4 +1,6 @@
 # Django settings for mediamanager project.
+import djcelery
+djcelery.setup_loader()
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -130,6 +132,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'djcelery',
     'sorter',
 )
 
@@ -185,3 +188,6 @@ LOGGING = {
         }
     }
 }
+
+### Django Celery Configuration
+BROKER_URL = 'amqp://guest:guest@localhost:5672/'

@@ -74,5 +74,7 @@ def setup(request):
 def scan(request, folder_id):
     context = {}
     log.debug("Starting scan of folder: " + folder_id)
+    media_folder = get_object_or_404(MediaFolder, pk=folder_id)
+    media_folder.scan()
     return home(request)
 

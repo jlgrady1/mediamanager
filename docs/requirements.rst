@@ -10,6 +10,8 @@ The current requirements for Media Manager are:
 * FileBot >= 3.6
 * Java Runtime >= 1.6
 * pyyaml
+* Magic >= 0.4
+* South >= 0.8
 
 -----------------------
 Installing Requirements
@@ -34,10 +36,15 @@ Install python pip for python packages::
 Install celery from pip, no the EPEL repo. It can be installed with::
 
     sudo pip-python install celery
+    sudo pip-python install django-celery
 
 Install pyyaml from pip::
 
     sudo pip-python install pyyaml
+
+Install python magic. Required for media type identification::
+
+    sudo pip-python install python-magic
 
 FileBot is a program for automatically renaming T.V. shows from various T.V.
 databases. The commnad line version is required for Media Manager. The filebot
