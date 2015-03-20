@@ -3,7 +3,7 @@ Design
 ======
 
 The initial design of the app began with a wireframe of the pages. Below are a
-list of pages and their function
+list of pages and their function.
 
 * Dashboard
     * Show overall progress
